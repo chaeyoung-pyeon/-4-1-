@@ -1,0 +1,25 @@
+import sys
+sys.setrecursionlimit(10000)  
+
+N = int(input())
+graph = [[] for _ in range(N + 1)]
+
+for _ in range(N - 1):
+    A, B, C = map(int, input().split())
+    graph[A].append((B, C))
+    graph[B].append((A, C))
+
+visited = [False] * (N + 1)
+max_dist = 0
+
+def dfs(node, dist):
+    global max_dist
+    visited[node] = True
+    max_dist = max(max_dist, dist)
+    for neighbor, cost in graph[node]:
+        if not visited[neighbor]:
+            dfs(neighbor, dist + cost)
+
+dfs(1, 0)
+
+print(max_dist)
