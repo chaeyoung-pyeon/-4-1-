@@ -1,0 +1,63 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+def insert_node(parent, left, right):
+    if parent not in tree:
+        tree[parent] = Node(parent)
+    node = tree[parent]
+
+    if left != '.':
+        if left not in tree:
+            tree[left] = Node(left)
+        node.left = tree[left]
+        children.add(left)
+
+    if right != '.':
+        if right not in tree:
+            tree[right] = Node(right)
+        node.right = tree[right]
+        children.add(right)
+
+tree = {}
+children = set()
+all_nodes = set()
+
+n = int(input())
+
+for _ in range(n):
+    parent, left, right = input().split()
+    all_nodes.add(parent)
+    insert_node(parent, left, right)
+
+root_candidates = all_nodes - children
+root_name = root_candidates.pop()
+root = tree[root_name]
+
+#전위 순회
+def preorder(node):
+    if node:
+        print(node.data, end=' ')
+        preorder(node.left)
+        preorder(node.right)
+#중위 순회
+def inorder(node):
+    if node:
+        inorder(node.left)
+        print(node.data, end=' ')
+        inorder(node.right)
+#후위 순회
+def postorder(node):
+    if node:
+        postorder(node.left)
+        postorder(node.right)
+        print(node.data, end=' ')
+
+
+preorder(root) #전위 순회 출력
+print()
+inorder(root) #중위 순회 출력
+print()
+postorder(root) #후위 순회 출력
