@@ -1,0 +1,38 @@
+from collections import deque
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+def build_tree(inorder):
+    if not inorder:
+        return None
+    mid = len(inorder) // 2
+    node = Node(inorder[mid])
+    node.left = build_tree(inorder[:mid])
+    node.right = build_tree(inorder[mid+1:])
+    return node
+
+def level_order_by_line(root):
+    if not root:
+        return
+    q = deque([root])
+    while q:
+        level_size = len(q)
+        for _ in range(level_size):
+            node = q.popleft()
+            print(node.data, end=' ')
+            if node.left:
+                q.append(node.left)
+            if node.right:
+                q.append(node.right)
+        print() 
+
+k = int(input())
+node_count = 2 ** k - 1
+inorder = list(map(int, input().split()))
+
+root = build_tree(inorder)
+level_order_by_line(root)
